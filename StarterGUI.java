@@ -1,19 +1,47 @@
+import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.GridLayout;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.WindowConstants;
+import javax.swing.border.LineBorder;
 
 public class StarterGUI {
 	
 	private JFrame window;
 	private JButton stop,start;
+	private JPanel timePanel, activatePanel;
+	//Time Panels
+	private JPanel hrPanel, minPanel, secPanel, msPanel;
+	private JTextField hrField, minField, secField, msField;
+	private Color windowColor, buttonDeactivatedColor, buttonActivatedColor;
+	private Color buttonBorderActivatedColor, buttonBorderDeactivatedColor;
+	private LineBorder buttonActivatedBorder, buttonDeactivatedBorder;
 	public boolean questioning;
+	public long time; 
 	
 	public StarterGUI(){
+		windowColor = new Color(238,238,238);
+		buttonActivatedColor = new Color(255,255,255);
+		buttonDeactivatedColor = new Color(248,248,248);
+		buttonBorderActivatedColor = new Color(100,100,100);
+		buttonBorderDeactivatedColor = new Color(170,170,170);
+		
+		buttonActivatedBorder = new LineBorder(buttonBorderActivatedColor);
+		buttonDeactivatedBorder = new LineBorder(buttonBorderDeactivatedColor);
+		
 		makeGUI();
 	}
 	public void makeGUI() {
@@ -22,30 +50,181 @@ public class StarterGUI {
 		window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		window.setResizable(false);
 		window.setLocationRelativeTo(null);
-		window.setLayout(new GridLayout(1, 2));
-
+		window.setLayout(new GridBagLayout());
+		window.setAlwaysOnTop(true);
+		window.setBackground(windowColor);
+		window.setIconImage(new ImageIcon("icon.png").getImage());
+		
+		makeTimePanel();
+		makeActivatePanel();
+		window.setVisible(true);
+	}
+	
+	private void makeTimePanel() {
+		Font font = new Font("Dialog", Font.PLAIN, 11);
+		hrPanel = new JPanel();
+		hrField = new JTextField("0",5);
+		hrField.setFont(font);
+		JLabel hr = new JLabel("hours");
+		hr.setFont(font);
+		hrPanel.add(hrField);
+		hrPanel.add(hr);
+		
+		minPanel = new JPanel();
+		minField = new JTextField("0",5);
+		minField.setFont(font);
+		JLabel min = new JLabel("minutes");
+		min.setFont(font);
+		minPanel.add(minField);
+		minPanel.add(min);
+		
+		secPanel = new JPanel();
+		secField = new JTextField("5",5);
+		secField.setFont(font);
+		JLabel sec = new JLabel("seconds");
+		sec.setFont(font);
+		secPanel.add(secField);
+		secPanel.add(sec);
+		
+		msPanel = new JPanel();
+		msField = new JTextField("0",5);
+		msField.setFont(font);
+		JLabel ms = new JLabel("milliseconds");
+		ms.setFont(font);
+		msPanel.add(msField);
+		msPanel.add(ms);
+		
+		timePanel = new JPanel();
+		timePanel.setLayout(new FlowLayout());
+		timePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		
+		timePanel.add(hrPanel);
+		timePanel.add(minPanel);
+		timePanel.add(secPanel);
+		timePanel.add(msPanel);
+		
+		GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.ipady = 0;       //reset to default
+		//c.weighty = 1.0;   //request any extra vertical space
+		c.anchor = GridBagConstraints.PAGE_START; //bottom of space
+		c.insets = new Insets(10,0,0,0);  //top padding
+		c.gridx = 0;       //aligned with button 2
+		c.gridy = 0;       //third row
+		window.add(timePanel, c);
+	}
+	
+	private void makeActivatePanel() {
+		Dimension buttonDimension = new Dimension(225,50);
+		Font font = new Font("Dialog", Font.BOLD, 13);
 		stop = new JButton("Stop");
+		stop.setSize(buttonDimension);
+		stop.setMinimumSize(buttonDimension);
+		stop.setMaximumSize(buttonDimension);
+		stop.setPreferredSize(buttonDimension);
+		stop.setEnabled(false);
+		stop.setBorder(buttonDeactivatedBorder);
+		stop.setBackground(buttonDeactivatedColor);
+		stop.setFocusPainted(false);
+		stop.setFont(font);
 		stop.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				stopQuestions();
+				stopButtonStuff();
 			}
 			
 		});
 		start = new JButton("Start");
+		start.setSize(buttonDimension);
+		start.setMinimumSize(buttonDimension);
+		start.setMaximumSize(buttonDimension);
+		start.setPreferredSize(buttonDimension);
+		start.setEnabled(false);
+		start.setBorder(buttonActivatedBorder);
+		start.setBackground(buttonActivatedColor);
+		start.setEnabled(true);
+		start.setFocusPainted(false);
+		start.setFont(font);
 		start.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				startQuestions();
+				startButtonStuff();
 			}
 			
 		});
+		activatePanel = new JPanel();
+		activatePanel.setLayout(new FlowLayout());
+		activatePanel.add(start);
+		activatePanel.add(stop);
+		GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.ipady = 0;       //reset to default
+		c.weighty = 1.0;   //request any extra vertical space
+		c.anchor = GridBagConstraints.PAGE_END; //bottom of space
+		c.insets = new Insets(10,0,0,0);  //top padding
+		c.gridx = 0;       //aligned with button 2
+		c.gridy = 2;       //third row
+		window.add(activatePanel, c);
+	}
+	
+	
+	public void calcTime() {
+		int hours = 0;
+		int min = 0;
+		int sec = 0;
+		int ms = 0;
+		try {
+			hours = Integer.parseInt(hrField.getText());
+			System.out.println(hours);
+		}catch(NumberFormatException e) {
+			System.out.println("nut");
+		}
+		try {
+			min = Integer.parseInt(minField.getText());
+			System.out.println(min);
+		}catch(NumberFormatException e) {
+			System.out.println("nut");
+		}
+		try {
+			sec = Integer.parseInt(secField.getText());
+			System.out.println(sec);
+		}catch(NumberFormatException e) {
+			System.out.println("nut");
+		}
+		try {
+			ms = Integer.parseInt(msField.getText());
+			System.out.println(ms);
+		}catch(NumberFormatException e) {
+			System.out.println("nut");
+		}
 		
-		window.setVisible(true);
+		time = (hours* 3600000) + (min * 60000) + (sec * 1000) + ms;
+	}
+	public void startButtonStuff() {
+		startQuestions();
+		calcTime();
+		start.setEnabled(false);
+		stop.setEnabled(true);
+		
+		start.setBackground(buttonDeactivatedColor);
+		stop.setBackground(buttonActivatedColor);
+		
+		stop.setBorder(buttonActivatedBorder);
+		start.setBorder(buttonDeactivatedBorder);
+	}
+	public void stopButtonStuff() {
+		stopQuestions();
+		stop.setEnabled(false);
+		start.setEnabled(true);
+		
+		stop.setBackground(buttonDeactivatedColor);
+		start.setBackground(buttonActivatedColor);
+		
+		start.setBorder(buttonActivatedBorder);
+		stop.setBorder(buttonDeactivatedBorder);
 	}
 	
 	public void stopQuestions() {
