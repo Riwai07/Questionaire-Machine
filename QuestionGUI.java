@@ -1,11 +1,16 @@
 import java.awt.AWTException;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GradientPaint;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.Paint;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
@@ -13,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -50,19 +56,28 @@ public class QuestionGUI {
 
 		frame.dispose();
 		frame = new JFrame("Answer thine question");
-		frame.setLayout(new GridBagLayout());
+		frame.setLayout(new BoxLayout(frame, BoxLayout.X_AXIS));
 		frame.setIconImage(new ImageIcon("icon.png").getImage());
 		frame.setSize(new Dimension(1920, 1080));
 		
 		questionPanel = new JPanel();
 		
-		questionPanel.setSize(new Dimension(750, 500));
+		Dimension questionDimension = new Dimension(750, 500);
+		
+		questionPanel.setSize(questionDimension);
+		questionPanel.setMinimumSize(questionDimension);
+		questionPanel.setPreferredSize(questionDimension);
+		questionPanel.setMaximumSize(questionDimension);
+		questionPanel.setOpaque(false);
 		frame.setLocationRelativeTo(null);
 		frame.setUndecorated(true);
 		frame.setAlwaysOnTop(true);
 		frame.setResizable(false);
+		frame.getContentPane().setBackground(new Color(255,255,255,255));
+		frame.setOpacity((float) 0.25);
 		frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		questionPanel.setLayout(new GridLayout(3, 1));
+		questionPanel.setBackground(Color.WHITE);
 
 		int index = (int) (Math.random() * question.size());
 		ArrayList<String> answer = new ArrayList<>();
@@ -175,11 +190,7 @@ public class QuestionGUI {
 		questionPanel.add(ans1);
 		questionPanel.add(ans2);
 		
-		GridBagConstraints con = new GridBagConstraints();
-		con.anchor = GridBagConstraints.CENTER; //bottom of space
-		con.gridx = 1;       //aligned with button 2
-		con.gridy = 1;       //third row
-		frame.add(questionPanel, con);
+		frame.add(questionPanel);
 		
 		frame.setVisible(true);
 	}
