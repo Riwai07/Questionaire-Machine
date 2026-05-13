@@ -2,8 +2,10 @@ import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
@@ -11,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -19,9 +22,10 @@ import javax.swing.WindowConstants;
 
 public class QuestionGUI {
 
-	static JFrame frame;
-	static JPanel ans1, ans2, questionDisplay;
-	static JButton a, b, c, d;
+	private JFrame frame;
+	private JPanel questionPanel;
+	private JPanel ans1, ans2, questionDisplay;
+	private JButton a, b, c, d;
 
 	public QuestionGUI() throws FileNotFoundException, InterruptedException, AWTException {
 		stuff();
@@ -45,14 +49,20 @@ public class QuestionGUI {
 		boolean lop = true;
 
 		frame.dispose();
-		frame = new JFrame("Answer thine question or pee pee poo poo");
-		frame.setSize(new Dimension(750, 500));
+		frame = new JFrame("Answer thine question");
+		frame.setLayout(new GridBagLayout());
+		frame.setIconImage(new ImageIcon("icon.png").getImage());
+		frame.setSize(new Dimension(1920, 1080));
+		
+		questionPanel = new JPanel();
+		
+		questionPanel.setSize(new Dimension(750, 500));
 		frame.setLocationRelativeTo(null);
 		frame.setUndecorated(true);
 		frame.setAlwaysOnTop(true);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-		frame.setLayout(new GridLayout(3, 1));
+		questionPanel.setLayout(new GridLayout(3, 1));
 
 		int index = (int) (Math.random() * question.size());
 		ArrayList<String> answer = new ArrayList<>();
@@ -89,6 +99,7 @@ public class QuestionGUI {
 		ans1.setLayout(new GridLayout(1, 2));
 
 		a = new JButton(answer.get(0));
+		a.setFocusPainted(false);
 		a.setFont(new Font("Arial", Font.BOLD, 40));
 		a.addActionListener(new ActionListener() {
 			@Override
@@ -97,12 +108,14 @@ public class QuestionGUI {
 				if (isAnswer(answers.get(index), a.getText())) {
 					frame.dispose();
 				} else {
+					a.setEnabled(false);
 					a.setBackground(red);
 				}
 			}
 		});
 
 		b = new JButton(answer.get(1));
+		b.setFocusPainted(false);
 		b.setFont(new Font("Arial", Font.BOLD, 40));
 		b.addActionListener(new ActionListener() {
 			@Override
@@ -111,6 +124,7 @@ public class QuestionGUI {
 				if (isAnswer(answers.get(index), b.getText())) {
 					frame.dispose();
 				} else {
+					b.setEnabled(false);
 					b.setBackground(red);
 				}
 			}
@@ -123,6 +137,7 @@ public class QuestionGUI {
 		ans2.setLayout(new GridLayout(1, 2));
 
 		c = new JButton(answer.get(2));
+		c.setFocusPainted(false);
 		c.setFont(new Font("Arial", Font.BOLD, 40));
 		c.addActionListener(new ActionListener() {
 			@Override
@@ -131,12 +146,14 @@ public class QuestionGUI {
 				if (isAnswer(answers.get(index), c.getText())) {
 					frame.dispose();
 				} else {
+					c.setEnabled(false);
 					c.setBackground(red);
 				}
 			}
 		});
 
 		d = new JButton(answer.get(3));
+		d.setFocusPainted(false);
 		d.setFont(new Font("Arial", Font.BOLD, 40));
 		d.addActionListener(new ActionListener() {
 			@Override
@@ -145,6 +162,7 @@ public class QuestionGUI {
 				if (isAnswer(answers.get(index), d.getText())) {
 					frame.dispose();
 				} else {
+					d.setEnabled(false);
 					d.setBackground(red);
 				}
 			}
@@ -153,9 +171,16 @@ public class QuestionGUI {
 		ans2.add(c);
 		ans2.add(d);
 
-		frame.add(questionDisplay);
-		frame.add(ans1);
-		frame.add(ans2);
+		questionPanel.add(questionDisplay);
+		questionPanel.add(ans1);
+		questionPanel.add(ans2);
+		
+		GridBagConstraints con = new GridBagConstraints();
+		con.anchor = GridBagConstraints.CENTER; //bottom of space
+		con.gridx = 1;       //aligned with button 2
+		con.gridy = 1;       //third row
+		frame.add(questionPanel, con);
+		
 		frame.setVisible(true);
 	}
 

@@ -236,6 +236,11 @@ public class StarterGUI {
 	}
 	public void startQuestions() {
 		questioning = true;
+		System.out.println("ah");
+	}
+	public long getTime() {
+		calcTime();
+		return time;
 	}
 }
 	
