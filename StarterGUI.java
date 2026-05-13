@@ -29,7 +29,7 @@ public class StarterGUI {
 	//Time Stuff
 	private JPanel timePanel, hrPanel, minPanel, secPanel, msPanel;
 	private JTextField hrField, minField, secField, msField;
-	public long time; 
+	public long time, hours, minutes, seconds, millisec; 
 	
 	private Color windowColor, buttonDeactivatedColor, buttonActivatedColor;
 	private Color buttonBorderActivatedColor, buttonBorderDeactivatedColor;
@@ -37,6 +37,12 @@ public class StarterGUI {
 	public boolean questioning;
 	
 	public StarterGUI(){
+		time = 0;
+		hours = 0;
+		minutes = 0;
+		seconds = 0;
+		millisec = 0;
+		
 		windowColor = new Color(238,238,238);
 		buttonActivatedColor = new Color(255,255,255);
 		buttonDeactivatedColor = new Color(248,248,248);
@@ -176,36 +182,36 @@ public class StarterGUI {
 	
 	
 	public void calcTime() {
-		int hours = 0;
-		int min = 0;
-		int sec = 0;
-		int ms = 0;
+		hours = 0;
+		minutes = 0;
+		seconds = 0;
+		millisec = 0;
 		try {
 			hours = Integer.parseInt(hrField.getText());
-			System.out.println(hours);
+			System.out.print(hours + " ");
 		}catch(NumberFormatException e) {
-			System.out.println("nut");
+			System.out.print("nut ");
 		}
 		try {
-			min = Integer.parseInt(minField.getText());
-			System.out.println(min);
+			minutes = Integer.parseInt(minField.getText());
+			System.out.print(minutes + " ");
 		}catch(NumberFormatException e) {
-			System.out.println("nut");
+			System.out.print("nut ");
 		}
 		try {
-			sec = Integer.parseInt(secField.getText());
-			System.out.println(sec);
+			seconds = Integer.parseInt(secField.getText());
+			System.out.print(seconds + " ");
 		}catch(NumberFormatException e) {
-			System.out.println("nut");
+			System.out.print("nut ");
 		}
 		try {
-			ms = Integer.parseInt(msField.getText());
-			System.out.println(ms);
+			millisec = Integer.parseInt(msField.getText());
+			System.out.println(millisec);
 		}catch(NumberFormatException e) {
 			System.out.println("nut");
 		}
 		
-		time = (hours* 3600000) + (min * 60000) + (sec * 1000) + ms;
+		time = (hours* 3600000) + (minutes * 60000) + (seconds * 1000) + millisec;
 	}
 	public void startButtonStuff() {
 		startQuestions();

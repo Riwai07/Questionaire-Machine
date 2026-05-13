@@ -1,5 +1,6 @@
 import java.awt.AWTException;
 import java.io.FileNotFoundException;
+import java.time.LocalTime;
 
 public class run {
 	static int queue = 1;
@@ -28,20 +29,26 @@ public class run {
         thread.start();
 	}
 	public static void work(StarterGUI s, boolean pause) throws FileNotFoundException, InterruptedException, AWTException {
+		QuestionGUI a = null;
 		queueTime = s.getTime();
 		while(true) {
 			if(s.questioning) {
 				if(!pause && queue != 0) {
-					QuestionGUI a = new QuestionGUI();
-					pause = true;
+					a = new QuestionGUI();
+					pause = a.pause;
 					queue--;
 				}
-				//Load Queue
-				//Load Questions
-				//Make sure it dies whenever s.questioning = false
-			}else {
-				//queueTime = s.getTime();
-				pause = false;
+				if(pause) {
+					pause = a.pause;
+				}
+				LocalTime newTime = a.time.plusHours(s.hours).plusMinutes(s.minutes).plusSeconds(s.seconds).plusNanos(s.millisec);
+				if(LocalTime.now().isAfter(newTime)){
+					queue++;
+				}
+				System.out.println(LocalTime.now().isAfter(newTime));
+				System.out.println(LocalTime.now() + " " + newTime);
+			}else{
+				queue = 1;
 			}
 			Thread.sleep(1);
 		}
