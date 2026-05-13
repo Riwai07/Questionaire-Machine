@@ -21,16 +21,20 @@ import javax.swing.border.LineBorder;
 public class StarterGUI {
 	
 	private JFrame window;
+	
+	//Button Stuff
 	private JButton stop,start;
-	private JPanel timePanel, activatePanel;
-	//Time Panels
-	private JPanel hrPanel, minPanel, secPanel, msPanel;
+	private JPanel activatePanel;
+	
+	//Time Stuff
+	private JPanel timePanel, hrPanel, minPanel, secPanel, msPanel;
 	private JTextField hrField, minField, secField, msField;
+	public long time; 
+	
 	private Color windowColor, buttonDeactivatedColor, buttonActivatedColor;
 	private Color buttonBorderActivatedColor, buttonBorderDeactivatedColor;
 	private LineBorder buttonActivatedBorder, buttonDeactivatedBorder;
 	public boolean questioning;
-	public long time; 
 	
 	public StarterGUI(){
 		windowColor = new Color(238,238,238);

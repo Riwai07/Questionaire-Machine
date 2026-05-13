@@ -1,14 +1,30 @@
+import java.awt.AWTException;
+import java.io.FileNotFoundException;
 
 public class run {
-
-	public static void main(String[] args) throws InterruptedException {
+	static int queue = 0;
+	public static void main(String[] args) throws InterruptedException, FileNotFoundException, AWTException {
 		// TODO Auto-generated method stub
-		int queue = 0;
+		boolean pauseQuestioning = false;
 		StarterGUI a = new StarterGUI();
-		if(a.questioning) {
-			queue++;
-			Thread.sleep(a.time);
+		Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                work(a, pauseQuestioning);
+            }
+        });
+        thread.start();
+	}
+	public static void work(StarterGUI s, boolean pause) {
+		while(true) {
+			if(s.questioning) {
+				if(!pause) {
+					
+				}
+				//Load Queue
+				//Load Questions
+				//Make sure it dies whenever s.questioning = false
+			}
 		}
 	}
-
 }
