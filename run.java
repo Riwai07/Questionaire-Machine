@@ -1,10 +1,12 @@
 import java.awt.AWTException;
 import java.io.FileNotFoundException;
 import java.time.LocalTime;
+import java.util.concurrent.TimeUnit;
 
 public class run {
 	static int queue = 1;
 	static long queueTime = 0;
+	static String set = "";
 	public static void main(String[] args) throws InterruptedException, FileNotFoundException, AWTException {
 		// TODO Auto-generated method stub
 		boolean pauseQuestioning = false;
@@ -34,19 +36,20 @@ public class run {
 		while(true) {
 			if(s.questioning) {
 				if(!pause && queue != 0) {
-					a = new QuestionGUI();
+					a = new QuestionGUI(s.importedSet);
 					pause = a.pause;
 					queue--;
 				}
 				if(pause) {
 					pause = a.pause;
 				}
-				LocalTime newTime = a.time.plusHours(s.hours).plusMinutes(s.minutes).plusSeconds(s.seconds).plusNanos(s.millisec);
-				if(LocalTime.now().isAfter(newTime)){
+				LocalTime newTime = a.time.plusHours(s.hours).plusMinutes(s.minutes).plusSeconds(s.seconds).plusNanos(TimeUnit.MILLISECONDS.toNanos(s.millisec));
+				if(LocalTime.now().isAfter(newTime) && !pause){
 					queue++;
 				}
-				System.out.println(LocalTime.now().isAfter(newTime));
-				System.out.println(LocalTime.now() + " " + newTime);
+//				System.out.print(LocalTime.now().isAfter(newTime) + " ");
+//				System.out.print(LocalTime.now() + " " + newTime);
+//				System.out.println(" " + queue);
 			}else{
 				queue = 1;
 			}
