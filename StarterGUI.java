@@ -81,7 +81,7 @@ public class StarterGUI {
 	}
 	public void makeGUI() {
 		window = new JFrame("Questionaire Machine");
-		window.setSize(new Dimension(500, 400));
+		window.setSize(new Dimension(500, 250));
 		window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		window.setResizable(false);
 		window.setLocationRelativeTo(null);
@@ -181,7 +181,7 @@ public class StarterGUI {
 		importWindow.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		importWindow.setResizable(false);
 		Point p = window.getLocation();
-		importWindow.setLocation(new Point((int) (p.x - d.getWidth()),(int) (p.y - d.getHeight()/5)));
+		importWindow.setLocation(new Point((int) (p.x - d.getWidth()),(int) (p.y + window.getHeight()/2 - d.getHeight()/2)));
 		importWindow.setBackground(windowColor);
 		importWindow.setIconImage(new ImageIcon("icon.png").getImage());
 		

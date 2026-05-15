@@ -1,9 +1,12 @@
 import java.awt.AWTException;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
@@ -122,22 +125,6 @@ public class QuestionGUI {
 		answer.set(1,cards.get(indexs[1]));
 		answer.set(2,cards.get(indexs[2]));
 		answer.set(3,cards.get(indexs[3]));
-//		answer.add(cards.get(index));
-//		for (int i = 0; i < 3; i++) {
-//			boolean ah = false;
-//			int ran = (int) (Math.random() * cards.size());
-//			String[] ranAn = cards.get(ran);
-//			for (int o = 0; o < answer.size(); o++) {
-//				if (ranAn.equals(answer.get(o))) {
-//					ah = true;
-//				}
-//			}
-//			answer.add(ranAn);
-//			if (ah) {
-//				answer.remove(answer.size() - 1);
-//				i--;
-//			}
-//		}
 		Collections.shuffle(answer);
 		Collections.shuffle(answer);
 		Collections.shuffle(answer);
@@ -154,7 +141,14 @@ public class QuestionGUI {
 		
 		correctAnswerPan = new JPanel();
 		correctAnswerPan.setBackground(Color.GREEN);
-		correctAnswerPan.add(l2);
+		correctAnswerPan.setLayout(new GridBagLayout());
+		correctAnswerPan.setAlignmentX(Component.CENTER_ALIGNMENT);
+		correctAnswerPan.setAlignmentY(Component.CENTER_ALIGNMENT);
+		
+		GridBagConstraints c8 = new GridBagConstraints();
+		c8.anchor = GridBagConstraints.CENTER;
+
+		correctAnswerPan.add(l2,c8);
 
 		questionDisplay = new JPanel();
 		questionDisplay.setLayout(new GridBagLayout());
@@ -176,7 +170,13 @@ public class QuestionGUI {
 					time = LocalTime.now();
 					frame.dispose();
 				} else {
-					doBadStuff();
+					try {
+						questionPanel.setVisible(false);
+						doBadStuff();
+					} catch (InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}
 			}
 		});
@@ -193,7 +193,13 @@ public class QuestionGUI {
 					time = LocalTime.now();
 					frame.dispose();
 				} else {
-					doBadStuff();
+					try {
+						questionPanel.setVisible(false);
+						doBadStuff();
+					} catch (InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}
 			}
 		});
@@ -216,7 +222,13 @@ public class QuestionGUI {
 					time = LocalTime.now();
 					frame.dispose();
 				} else {
-					doBadStuff();
+					try {
+						questionPanel.setVisible(false);
+						doBadStuff();
+					} catch (InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}
 			}
 		});
@@ -233,7 +245,13 @@ public class QuestionGUI {
 					time = LocalTime.now();
 					frame.dispose();
 				} else {
-					doBadStuff();
+					try {
+						questionPanel.setVisible(false);
+						doBadStuff();
+					} catch (InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}
 			}
 		});
@@ -258,7 +276,7 @@ public class QuestionGUI {
 		}
 	}
 	
-	public void doBadStuff() {
+	public void doBadStuff() throws InterruptedException {
 		time = LocalTime.now();
 		questionPanel.setVisible(false);
 		
@@ -268,6 +286,29 @@ public class QuestionGUI {
 		questionPanel.add(questionDisplay);
 		questionPanel.add(correctAnswerPan);
 		
-		questionPanel.setVisible(true);
+		Thread s = new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				try {
+					stuffsd();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+		});
+		s.start();
+	}
+	private void stuffsd() throws InterruptedException {
+		do {
+			questionPanel.setVisible(true);
+			frame.setVisible(true);
+			Thread.sleep(1);
+		}while(!LocalTime.now().isAfter(time.plusSeconds(5)));
+		newQuestion = true;
+		frame.dispose();
 	}
 }
