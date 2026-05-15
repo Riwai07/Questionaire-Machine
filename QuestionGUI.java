@@ -25,15 +25,16 @@ import javax.swing.WindowConstants;
 public class QuestionGUI {
 
 	private JFrame frame;
-	private JPanel mainPanel, questionPanel;
+	private JPanel mainPanel, questionPanel, correctAnswerPan;
 	private JPanel ans1, ans2, questionDisplay;
 	private JButton a, b, c, d;
-	public boolean pause;
+	public boolean pause, newQuestion;
 	public LocalTime time;
 	private String set;
 
 	public QuestionGUI(String s) throws FileNotFoundException, InterruptedException, AWTException {
 		pause = true;
+		newQuestion = false;
 		time = LocalTime.now();
 		set = s;
 		stuff();
@@ -147,6 +148,13 @@ public class QuestionGUI {
 
 		JLabel l = new JLabel(answer.get(correctIndex)[0]);
 		l.setFont(new Font("Arial", Font.BOLD, 40));
+		
+		JLabel l2 = new JLabel("Correct Answer: " + answer.get(correctIndex)[1]);
+		l2.setFont(new Font("Arial", Font.BOLD, 40));
+		
+		correctAnswerPan = new JPanel();
+		correctAnswerPan.setBackground(Color.GREEN);
+		correctAnswerPan.add(l2);
 
 		questionDisplay = new JPanel();
 		questionDisplay.setLayout(new GridBagLayout());
@@ -168,8 +176,7 @@ public class QuestionGUI {
 					time = LocalTime.now();
 					frame.dispose();
 				} else {
-					a.setEnabled(false);
-					a.setBackground(red);
+					doBadStuff();
 				}
 			}
 		});
@@ -186,8 +193,7 @@ public class QuestionGUI {
 					time = LocalTime.now();
 					frame.dispose();
 				} else {
-					b.setEnabled(false);
-					b.setBackground(red);
+					doBadStuff();
 				}
 			}
 		});
@@ -210,8 +216,7 @@ public class QuestionGUI {
 					time = LocalTime.now();
 					frame.dispose();
 				} else {
-					c.setEnabled(false);
-					c.setBackground(red);
+					doBadStuff();
 				}
 			}
 		});
@@ -228,8 +233,7 @@ public class QuestionGUI {
 					time = LocalTime.now();
 					frame.dispose();
 				} else {
-					d.setEnabled(false);
-					d.setBackground(red);
+					doBadStuff();
 				}
 			}
 		});
@@ -252,5 +256,18 @@ public class QuestionGUI {
 		} else {
 			return false;
 		}
+	}
+	
+	public void doBadStuff() {
+		time = LocalTime.now();
+		questionPanel.setVisible(false);
+		
+		questionPanel.removeAll();
+		questionPanel.setLayout(new GridLayout(2,1));
+		
+		questionPanel.add(questionDisplay);
+		questionPanel.add(correctAnswerPan);
+		
+		questionPanel.setVisible(true);
 	}
 }

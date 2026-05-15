@@ -43,6 +43,13 @@ public class run {
 				if(pause) {
 					pause = a.pause;
 				}
+				if(a.newQuestion) {
+					queue++;
+					pause = false;
+				}
+				if(queue < 0) {
+					queue = 0;
+				}
 				LocalTime newTime = a.time.plusHours(s.hours).plusMinutes(s.minutes).plusSeconds(s.seconds).plusNanos(TimeUnit.MILLISECONDS.toNanos(s.millisec));
 				if(LocalTime.now().isAfter(newTime) && !pause){
 					queue++;
